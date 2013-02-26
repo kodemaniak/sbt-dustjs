@@ -16,9 +16,9 @@ scalacOptions += "-deprecation"
 //    )(Resolver.ivyStylePatterns))
 publishTo := Some(Resolver.file("repository", new File("/var/www/repository")))
 
-publishMavenStyle := false
+//publishMavenStyle := false
 
-credentials += Credentials(Path.userHome / ".ivy2" / ".credentials.typesafe")
+//credentials += Credentials(Path.userHome / ".ivy2" / ".credentials.typesafe")
 
 publishArtifact in (Compile, packageBin) := true
 
