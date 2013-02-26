@@ -1,8 +1,9 @@
 package dustjs
 
-import sbt._, Keys._
+import sbt._
+import Keys._
 
-object DustJsPlugin extends sbt.Plugin {
+object DustJsPlugin extends Plugin {
   object DustKeys {
     // tasks
     val dust = TaskKey[Seq[File]]("dust", "Compile dust.js templates")
@@ -29,10 +30,14 @@ object DustJsPlugin extends sbt.Plugin {
   private def toOutputPath(fromDir: File, template: File, targetDir: File) = 
     Some(new File(targetDir, IO.relativize(fromDir, template).get.replace(".dust",".js")))
   
-  private def compile(input: File, output: File, log: Logger) = {
+  private def docompile(input: File, output: File, log: Logger) = {
     // IO.delete(output)
     try {
-      Compiler().compile(io.Source.fromFile(input).mkString, output.name.replace(".js","")).fold(
+      val source = io.Source.fromFile(input).mkString
+      log.debug(source)
+      val outputName = output.name.replace(".js","")
+      log.debug(outputName)
+      Compiler().compile(source, outputName).fold(
         error => sys.error(error),
         compiled => {
           IO.write(output, compiled)
@@ -57,7 +62,8 @@ object DustJsPlugin extends sbt.Plugin {
         case xs =>
           log.info("Compiling %d dust.js templates to %s" format(xs.size, target))
           xs map { case (in,out) => 
-            compile(in,out,log)
+            log.info("compiling %s to %s" format (in, out))
+            docompile(in,out,log)
           }
           compiled(target)
       }
