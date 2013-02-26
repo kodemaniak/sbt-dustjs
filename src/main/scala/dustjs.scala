@@ -34,9 +34,7 @@ object DustJsPlugin extends Plugin {
     // IO.delete(output)
     try {
       val source = io.Source.fromFile(input).mkString
-      log.debug(source)
       val outputName = output.name.replace(".js","")
-      log.debug(outputName)
       Compiler().compile(source, outputName).fold(
         error => sys.error(error),
         compiled => {
@@ -62,7 +60,6 @@ object DustJsPlugin extends Plugin {
         case xs =>
           log.info("Compiling %d dust.js templates to %s" format(xs.size, target))
           xs map { case (in,out) => 
-            log.info("compiling %s to %s" format (in, out))
             docompile(in,out,log)
           }
           compiled(target)
