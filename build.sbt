@@ -11,9 +11,10 @@ libraryDependencies += "rhino" % "js" % "1.7R2"
 scalacOptions += "-deprecation"
 
 // publishing
-publishTo := Some(Resolver.url("sbt-plugin-releases", 
-  new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/")
-    )(Resolver.ivyStylePatterns))
+//publishTo := Some(Resolver.url("sbt-plugin-releases", 
+//  new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/")
+//    )(Resolver.ivyStylePatterns))
+publishTo := Some(Resolver.file("repository", new File("/var/www/repository")))
 
 publishMavenStyle := false
 
